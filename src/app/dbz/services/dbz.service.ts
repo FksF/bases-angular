@@ -1,29 +1,38 @@
-import { Injectable } from '@angular/core';
-import { Personaje } from '../interfaces/dbz.interface';
+import { Injectable } from "@angular/core";
+import { v4 as uuid } from 'uuid';
+import { Character } from "../interfaces/character.interface";
 
-
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class DbzService {
 
-    private _personajes: Personaje[] = [
-        {
-          nombre: 'Goku',
-          poder: 15000
-        },
-        {
-          nombre: 'Vegeta',
-          poder: 7500
-        }
-    ];
+  public characters: Character[] = [{
+    id: uuid(),
+    name: 'Krilin',
+    power: 1000
+  },{
+    id: uuid(),
+    name: 'Goku',
+    power: 9500
+  },{
+    id: uuid(),
+    name: 'Vegeta',
+    power: 7500
+  }];
 
-    get personajes(): Personaje[] {
-        return [...this._personajes];
-    }
 
-    constructor() {}
+  addCharacter( character: Character ): void {
+    console.log(character);
+    const newCharacter: Character = { id: uuid(), ...character };
+    this.characters.push(newCharacter);
+  }
 
-    agregarPersonaje( personaje: Personaje ) {
-        this._personajes.push( personaje );
-    }
+/*   onDeleteCharacter( index: number ) {
+    this.characters.splice(index, 1);
+  } */
 
+  deleteCharacterById( id: string ) {
+    this.characters = this.characters.filter( character => character.id != id );
+  }
 }
